@@ -69,7 +69,7 @@ export default function CircleGraph({
 
       {/* 그라디언트 원을 전경에 설정 */}
       <svg
-        className="absolute left-0 top-0 z-10"
+        className="absolute left-0 top-0"
         width={`${boxSize}px`}
         height={`${boxSize}px`}
         viewBox={viewBox}

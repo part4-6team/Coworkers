@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import CircleGraph from './CircleGraph';
+import EditDropdown from './EditDropdown';
 
 export interface TaskProps {
   name: string;
@@ -21,8 +22,19 @@ export default function TaskBar({ name, tasks }: TaskBarProps) {
   // 3. 진척도
   const doneRate = totalTasks === 0 ? 0 : (doneTasksCount / totalTasks) * 100;
 
+  const moreIcon = (
+    <div className="flex h-[10px] w-[10px] items-center">
+      <Image
+        src="/icons/kebab_large.svg"
+        alt="더보기 아이콘"
+        width={4}
+        height={10}
+      />
+    </div>
+  );
+
   return (
-    <div className="flex h-[40px] justify-between bg-background-secondary">
+    <div className="flex h-[40px] cursor-pointer justify-between bg-background-secondary ">
       <div className="flex items-center justify-between gap-[10px]">
         <div className="h-full w-[12px] rounded-bl-[12px] rounded-br-[0px] rounded-tl-[12px] rounded-tr-[0px] bg-point-purple">
           &nbsp;
@@ -34,7 +46,7 @@ export default function TaskBar({ name, tasks }: TaskBarProps) {
           {doneRate === 100 ? (
             <Image
               src="/icons/progress_done.svg"
-              alt="더보기 아이콘"
+              alt="완료 아이콘"
               width={17}
               height={17}
               className="flex-shrink-0"
@@ -53,12 +65,8 @@ export default function TaskBar({ name, tasks }: TaskBarProps) {
             {doneTasksCount}/{totalTasks}
           </p>
         </div>
-        <Image
-          src="/icons/kebab_large.svg"
-          alt="더보기 아이콘"
-          width={4}
-          height={10}
-        />
+
+        <EditDropdown triggerIcon={moreIcon} />
       </div>
     </div>
   );

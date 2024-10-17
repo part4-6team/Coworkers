@@ -1,4 +1,6 @@
+import { useModal } from '@hooks/useModal';
 import MemberBox from './MemberBox';
+import InvitationModal from './InvitationModal';
 
 interface MemberProps {
   role: string;
@@ -14,6 +16,7 @@ interface MemberListProps {
 }
 
 export default function MemberList({ members }: MemberListProps) {
+  const { isOpen, openModal, closeModal } = useModal();
   const memberCount = members.length;
   return (
     <div>
@@ -25,9 +28,14 @@ export default function MemberList({ members }: MemberListProps) {
               ({memberCount}명)
             </p>
           </div>
-          <p className="cursor-pointer text-md-regular text-brand-primary">
+          <button
+            type="button"
+            onClick={openModal}
+            className="cursor-pointer text-md-regular text-brand-primary"
+          >
             +새로운 멤버 초대하기
-          </p>
+          </button>
+          <InvitationModal isOpen={isOpen} closeModal={closeModal} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-[10px] md:grid-cols-3 md:gap-[24px]">

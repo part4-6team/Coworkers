@@ -1,4 +1,6 @@
+import { useModal } from '@hooks/useModal';
 import TaskBar from './TaskBar';
+import AddTaskListModal from './AddTaskListModal';
 
 export interface TaskProps {
   name: string;
@@ -19,6 +21,7 @@ interface TaskListProps {
 }
 
 export default function TaskList({ taskLists }: TaskListProps) {
+  const { isOpen, openModal, closeModal } = useModal();
   const listCount = taskLists.length;
 
   return (
@@ -29,9 +32,14 @@ export default function TaskList({ taskLists }: TaskListProps) {
             <p className="text-lg-medium">할 일 목록</p>
             <p className="text-lg-regular text-text-default">({listCount}개)</p>
           </div>
-          <p className="cursor-pointer text-md-regular text-brand-primary">
+          <button
+            type="button"
+            onClick={openModal}
+            className="cursor-pointer text-md-regular text-brand-primary"
+          >
             +새로운 목록 추가하기
-          </p>
+          </button>
+          <AddTaskListModal isOpen={isOpen} closeModal={closeModal} />
         </div>
       </div>
       <div className="flex flex-col gap-[10px]">
