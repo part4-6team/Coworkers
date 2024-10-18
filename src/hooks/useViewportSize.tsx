@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const useViewportSize = () => {
-  const [viewport, setViewport] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
   const updateViewportSize = () => {
     setViewport({
@@ -14,6 +11,9 @@ const useViewportSize = () => {
   };
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 현재 크기 설정
+    updateViewportSize();
+
     window.addEventListener('resize', updateViewportSize);
     return () => {
       window.removeEventListener('resize', updateViewportSize);
