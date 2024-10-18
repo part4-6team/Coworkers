@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import XIcon from 'public/icons/x.svg';
 import clsx from 'clsx';
 import Button from '@components/@shared/Button';
@@ -34,14 +34,14 @@ export default function SideBar({
 }: SideBarProps) {
   const sideBarRef = useRef<HTMLDivElement>(null);
 
-  //사이드바 밖 부분을 클릭시 닫기위한 로직
+  // 사이드바 밖 부분을 클릭시 닫기위한 로직
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         sideBarRef.current &&
         !sideBarRef.current.contains(event.target as Node)
       ) {
-        onClose && onClose();
+        onClose();
       }
     };
 
@@ -81,44 +81,42 @@ export default function SideBar({
   };
 
   return (
-    <>
-      <div ref={sideBarRef} className={classes.sidebar}>
-        <button className={classes.closeButton} onClick={onClose}>
-          <XIcon />
-        </button>
-        <div className="mt-10">{children}</div>
-        <div className={classes.completeButtonWrapper}>
-          {button === 'completebutton' ? (
-            <Button width={138} height={40} shape="round">
-              <div
-                onClick={clickEvent}
-                className="flex items-center justify-center gap-1"
-              >
-                <CheckWhiteIcon />
-                <span>완료하기</span>
-              </div>
-            </Button>
-          ) : (
-            <Button
-              bgColor="white"
-              fontColor="green"
-              fontSize="14"
-              width={138}
-              height={40}
-              border="green"
-              shape="round"
+    <div ref={sideBarRef} className={classes.sidebar}>
+      <button type="button" className={classes.closeButton} onClick={onClose}>
+        <XIcon />
+      </button>
+      <div className="mt-10">{children}</div>
+      <div className={classes.completeButtonWrapper}>
+        {button === 'completebutton' ? (
+          <Button width={138} height={40} shape="round">
+            <div
+              onClick={clickEvent}
+              className="flex items-center justify-center gap-1"
             >
-              <div
-                onClick={clickEvent}
-                className="flex items-center justify-center gap-1"
-              >
-                <CheckGreenIcon />
-                <span>완료 취소하기</span>
-              </div>
-            </Button>
-          )}
-        </div>
+              <CheckWhiteIcon />
+              <span>완료하기</span>
+            </div>
+          </Button>
+        ) : (
+          <Button
+            bgColor="white"
+            fontColor="green"
+            fontSize="14"
+            width={138}
+            height={40}
+            border="green"
+            shape="round"
+          >
+            <div
+              onClick={clickEvent}
+              className="flex items-center justify-center gap-1"
+            >
+              <CheckGreenIcon />
+              <span>완료 취소하기</span>
+            </div>
+          </Button>
+        )}
       </div>
-    </>
+    </div>
   );
 }

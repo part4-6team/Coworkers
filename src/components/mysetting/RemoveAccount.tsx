@@ -17,7 +17,11 @@ export default function RemoveAccount() {
 
   return (
     <>
-      <button onClick={openModal} className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={openModal}
+        className="flex items-center gap-2"
+      >
         <SecessionIcon className="ml-6" />
         <span className="text-lg-medium text-status-danger">회원 탈퇴하기</span>
       </button>
@@ -33,8 +37,6 @@ export default function RemoveAccount() {
         fontArray="center"
         gap="40"
       >
-        {/* 모달의 하위 요소에 독립적인 스타일을 적용할 수 있습니다 */}
-        {/* Modal.Wrapper로 헤더와 콘텐츠의 간격을 설정할 수 있습니다 */}
         <Modal.Wrapper array="column">
           <Modal.Header fontColor="primary">
             <div className="flex flex-col items-center justify-center gap-4">
@@ -52,7 +54,6 @@ export default function RemoveAccount() {
           </Modal.Content>
         </Modal.Wrapper>
         <Modal.Footer>
-          {/* 공통 버튼 적용 전 */}
           <div className="flex items-center justify-center gap-2">
             <Button
               bgColor="white"

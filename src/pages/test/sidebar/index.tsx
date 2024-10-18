@@ -1,7 +1,7 @@
 import Sidebar from '@components/@shared/SideBar';
 import { useState } from 'react';
 
-//usestate를 통해서 Open Close 상태관리 추가 해야합니다.!
+// usestate를 통해서 Open Close 상태관리 추가 해야합니다.!
 
 export default function Test() {
   const [isLeftOpen, setIsLeftOpen] = useState(false);
@@ -9,7 +9,11 @@ export default function Test() {
 
   return (
     <>
-      <button className="text-red-50" onClick={() => setIsLeftOpen(true)}>
+      <button
+        type="button"
+        className="text-red-50"
+        onClick={() => setIsLeftOpen(true)}
+      >
         왼쪽 사이드바 열기
       </button>
 
@@ -32,8 +36,12 @@ export default function Test() {
           </ul>
         </nav>
       </Sidebar>
-      <div></div>
-      <button className="text-red-50" onClick={() => setIsRightOpen(true)}>
+
+      <button
+        type="button"
+        className="text-red-50"
+        onClick={() => setIsRightOpen(true)}
+      >
         오른쪽 사이드바 열기
       </button>
 

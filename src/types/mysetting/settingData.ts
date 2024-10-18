@@ -17,3 +17,8 @@ export interface UserPassword {
   passwordConfirmation: string;
   password: string;
 }
+
+export interface UserPasswordCheck {
+  email: string;
+  password: string;
+}

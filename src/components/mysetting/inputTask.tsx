@@ -1,10 +1,11 @@
-import { IconInput } from '@components/@shared/Input';
 import ProfileEditIcon from 'public/icons/profile_edit.svg';
-import PasswordChange from './PasswordChange';
 import { useEffect, useRef, useState } from 'react';
 import { useUserData } from '@hooks/mysetting/useUserData';
+import NetworkError from '@components/@shared/NetworkError';
+import Image from 'next/image';
+import PasswordInput from './PasswordInput';
 
-const InputTask = () => {
+export default function InputTask() {
   const [ProfileImage, setProfileImage] = useState<string | JSX.Element>(
     <ProfileEditIcon />
   );
@@ -15,7 +16,9 @@ const InputTask = () => {
   useEffect(() => {
     if (data && data.image) {
       setProfileImage(
-        <img
+        <Image
+          width={64}
+          height={64}
           src={data.image}
           alt="프로필 이미지"
           className="h-16 w-16 rounded-full object-cover "
@@ -29,7 +32,7 @@ const InputTask = () => {
   }
 
   if (isError) {
-    return <p>Error loading tasks.</p>;
+    return <NetworkError />;
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +43,7 @@ const InputTask = () => {
       reader.onload = () => {
         if (reader.readyState === 2 && reader.result) {
           setProfileImage(
-            <img
+            <Image
               src={reader.result as string}
               alt="프로필이미지"
               className="h-16 w-16 rounded-full object-cover "
@@ -64,6 +67,7 @@ const InputTask = () => {
           onChange={onChange}
         />
         <button
+          type="button"
           onClick={() => {
             if (fileInput.current) {
               fileInput.current.click();
@@ -82,22 +86,7 @@ const InputTask = () => {
           {data?.nickname}
         </div>
       </div>
-      <div className="flex w-full flex-col">
-        <span className="mb-3 text-lg-medium text-text-primary">이메일</span>
-        <div
-          className="h-[48px] w-full rounded-[12px] bg-background-secondary p-[15px] text-lg-regular text-text-primary outline outline-[1px]
-            outline-[#343E4E] focus:outline-none"
-        >
-          {data?.email}
-        </div>
-      </div>
-      <IconInput
-        label="비밀번호"
-        placeholder="비밀번호를 입력해주세요"
-        actionIcon={<PasswordChange />}
-      />
+      <PasswordInput />
     </main>
   );
-};
-
-export default InputTask;
+}

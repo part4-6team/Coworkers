@@ -7,16 +7,11 @@ import Task from '@/src/types/myhistory/TaskType';
 import { useDeleteTask } from '@hooks/myhistory/useDeleteTask';
 import { useState } from 'react';
 import SideBar from '@components/@shared/SideBar';
-import Image from 'next/image';
-import networkErrorIcon from 'public/icons/networkErrorIcon.png';
-import Button from '@components/@shared/Button';
-
-const handelReload = () => {
-  location.href = location.href;
-};
+import NetworkError from '@components/@shared/NetworkError';
 
 export default function MyTask() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const mutation = useDeleteTask();
 
   const { data: tasks = [], isLoading, isError } = useTask();
 
@@ -25,27 +20,12 @@ export default function MyTask() {
   }
 
   if (isError) {
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <Image
-          src={networkErrorIcon}
-          alt="네트워크 에러 아이콘"
-          width={100}
-          height={100}
-        />
-        <span className="text-2xl-bold">네트워크 에러</span>
-        <Button onClick={handelReload} className="mt-4 bg-amber-400">
-          재시도
-        </Button>
-      </div>
-    );
+    return <NetworkError />;
   }
 
   if (tasks.length === 0) {
     return <p>데이터 없음</p>;
   }
-
-  const mutation = useDeleteTask();
 
   const handelDeleteTask = (id: number) => {
     mutation.mutate(id);
@@ -96,18 +76,18 @@ export default function MyTask() {
       {Object.keys(groupedTasks).map((date) => (
         <div key={date}>
           <h2 className="mb-4 text-lg-medium">{date}</h2>
-          {groupedTasks[date].map((tasks) => (
+          {groupedTasks[date].map((taskItem) => (
             <div
-              key={tasks.id}
+              key={taskItem.id}
               className=" relative mb-4 flex min-w-[270px] items-center justify-between break-all rounded-md bg-background-secondary px-3.5 py-2.5 text-md-regular"
             >
               <div className="flex items-center gap-1.5  ">
                 <CheckBoxIconActiveIcon />
-                <span className="line-through">{tasks.description}</span>
+                <span className="line-through">{taskItem.description}</span>
               </div>
 
               <Dropdown
-                options={basic(tasks.id)}
+                options={basic(taskItem.id)}
                 triggerIcon={<KebabIcon />}
                 optionsWrapClass=" mt-2 rounded-[12px] border border-background-tertiary"
                 optionClass="rounded-[12px] md:w-[120px] md:h-[47px] w-[120px] h-[40px] justify-center text-md-regular md:text-lg-regular text-center hover:bg-background-tertiary"
