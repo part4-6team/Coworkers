@@ -1,28 +1,23 @@
 import { useModal } from '@hooks/useModal';
 import { Option } from '@components/@shared/Dropdown';
+import { TaskProps, useTeamStore } from '@/src/stores/teamStore';
 import Image from 'next/image';
 import CircleGraph from '../CircleGraph';
 import EditDropdown from '../EditDropdown';
 import DeleteTaskListModal from './DeleteTaskListModal';
 import EditTaskListModal from './EditTaskListModal';
 
-export interface TaskProps {
-  name: string;
-  done: boolean;
-}
-
 interface TaskBarProps {
   name: string;
   tasks: TaskProps[];
+  id: number;
 }
 
-export default function TaskBar({ name, tasks }: TaskBarProps) {
+export default function TaskBar({ name, tasks, id }: TaskBarProps) {
   // 1. 총 task의 개수
   const totalTasks = tasks.length;
-
-  // 2. done이 true인 task의 개수
-  const doneTasksCount = tasks.filter((task) => task.done).length;
-
+  // 2. doneAt이 null이 아닌 task의 개수
+  const doneTasksCount = tasks.filter((task) => task.doneAt !== null).length;
   // 3. 진척도
   const doneRate = totalTasks === 0 ? 0 : (doneTasksCount / totalTasks) * 100;
 
@@ -94,10 +89,12 @@ export default function TaskBar({ name, tasks }: TaskBarProps) {
           isOpen={editListIsOpen}
           onClose={editListCloseModal}
           initialTaskListName={name}
+          taskListId={id}
         />
         <DeleteTaskListModal
           isOpen={deleteListIsOpen}
           onClose={deleteListCloseModal}
+          taskListId={id}
           taskName={name}
         />
       </div>

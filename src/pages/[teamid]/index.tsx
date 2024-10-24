@@ -8,41 +8,6 @@ import MemberList from '@components/team/member/MemberList';
 import { useTeamStore } from '@/src/stores/teamStore';
 import { useEffect } from 'react';
 
-export interface MemberProps {
-  role: string;
-  userImage: string;
-  userEmail: string;
-  userName: string;
-  groupId: number;
-  userId: number;
-}
-
-export interface TaskProps {
-  name: string;
-  done: boolean;
-}
-
-export interface TaskListProps {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-  tasks: TaskProps[];
-}
-
-export interface TeamDataProps {
-  teamId: string;
-  updatedAt: string;
-  createdAt: string;
-  image: string;
-  name: string;
-  id: number;
-  members: MemberProps[];
-  taskLists: TaskListProps[];
-}
-
 export default function TeamPage() {
   const router = useRouter();
   const { teamid } = router.query;
@@ -53,7 +18,6 @@ export default function TeamPage() {
     queryKey: ['group', teamIdString],
     queryFn: () => getGroupById(teamIdString as string),
   });
-
   const { setTeamData } = useTeamStore();
 
   useEffect(() => {
@@ -67,11 +31,11 @@ export default function TeamPage() {
   if (isError) return <div>Error loading data</div>;
 
   return (
-    <main className="mx-auto mt-[20px] w-full min-w-[340px] px-[10px] xl:w-[1200px] xl:px-0">
+    <main className="mx-auto mb-[30px] mt-[20px] w-full min-w-[340px] px-[10px] xl:w-[1200px] xl:px-0">
       <TeamBanner />
-      <TaskList taskLists={data?.taskLists} />
-      <Report taskLists={data?.taskLists} />
-      <MemberList members={data?.members} />
+      <TaskList />
+      <Report />
+      <MemberList />
     </main>
   );
 }

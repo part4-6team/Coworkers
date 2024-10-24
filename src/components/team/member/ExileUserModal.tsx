@@ -31,7 +31,7 @@ interface Membership {
   group: Group;
 }
 
-interface UserData {
+export interface UserData {
   id: number;
   nickname: string;
   createdAt: string;
@@ -48,7 +48,7 @@ export default function ExileUserModal({
   memberName,
   userId,
 }: ExileUserModalProps) {
-  const { teamId } = useTeamStore();
+  const { id } = useTeamStore();
   const queryClient = useQueryClient();
 
   // 'user' 키로 캐싱된 유저 데이터 가져오기
@@ -56,15 +56,15 @@ export default function ExileUserModal({
 
   // 멤버 삭제 Mutation
   const { mutate: deleteMember } = useMutation({
-    mutationFn: ({ id, userid }: { id: string; userid: number }) =>
-      deleteMemberById(id, userid),
+    mutationFn: ({ groupid, userid }: { groupid: string; userid: number }) =>
+      deleteMemberById(groupid, userid),
     onSuccess: () => {
       console.log('멤버 정보 삭제 완료!');
       onClose();
     },
     onSettled: () => {
       // 쿼리 무효화 및 리패치
-      queryClient.invalidateQueries({ queryKey: ['group', teamId] });
+      queryClient.invalidateQueries({ queryKey: ['group', id] });
     },
     onError: (error) => {
       console.error('멤버 삭제 실패:', error);
@@ -74,7 +74,7 @@ export default function ExileUserModal({
   // 팀 관리자만 삭제 가능
   const isAdmin =
     userData &&
-    userData.memberships.find((m) => m.groupId === Number(teamId))?.role ===
+    userData.memberships.find((m) => m.groupId === Number(id))?.role ===
       'ADMIN';
   // 본인 삭제 불가 체크
   const isSelf = userData && userData.id === userId;
@@ -90,7 +90,7 @@ export default function ExileUserModal({
       return;
     }
 
-    deleteMember({ id: teamId as string, userid: userId as number });
+    deleteMember({ groupid: id as string, userid: userId as number });
   };
 
   return (

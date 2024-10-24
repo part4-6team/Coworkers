@@ -1,26 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useTeamStore } from '@/src/stores/teamStore';
 import Image from 'next/image';
 import CircleGraph from './CircleGraph';
 
-export interface TaskProps {
-  name: string;
-  done: boolean;
-}
-export interface TaskListItem {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-  tasks: TaskProps[];
-}
+export default function Report() {
+  const { taskLists } = useTeamStore();
 
-interface TaskListProps {
-  taskLists: TaskListItem[];
-}
-
-export default function Report({ taskLists }: TaskListProps) {
   const [totalTasks, setTotalTasks] = useState(0);
   const [doneTasks, setDoneTasks] = useState(0);
   const [doneRate, setDoneRate] = useState(0);
@@ -32,7 +17,7 @@ export default function Report({ taskLists }: TaskListProps) {
 
     taskLists.forEach((taskList) => {
       total += taskList.tasks.length;
-      done += taskList.tasks.filter((task) => task.done).length;
+      done += taskList.tasks.filter((task) => task.doneAt !== null).length;
       rate = total === 0 ? 0 : Math.round((done / total) * 100);
     });
 

@@ -15,7 +15,7 @@ interface EditTeamModalProps {
 
 export default function EditTeamModal({ isOpen, onClose }: EditTeamModalProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const { teamId, teamName, imageUrl, setTeamName } = useTeamStore();
+  const { id, teamName, imageUrl, setTeamName } = useTeamStore();
   // 모달 내부에서 관리할 임시 상태
   const [localTeamName, setLocalTeamName] = useState(teamName);
   const queryClient = useQueryClient();
@@ -32,14 +32,14 @@ export default function EditTeamModal({ isOpen, onClose }: EditTeamModalProps) {
   // 그룹 수정 Mutation
   const { mutate: editGroup } = useMutation({
     mutationFn: ({
-      id,
+      groupId,
       image,
       name,
     }: {
-      id: string;
+      groupId: string;
       image: string;
       name: string;
-    }) => patchGroupById(id, image, name),
+    }) => patchGroupById(groupId, image, name),
     onSuccess: () => {
       onClose();
       console.log(`${teamName} 팀 정보가 성공적으로 수정되었습니다.`);
@@ -47,7 +47,7 @@ export default function EditTeamModal({ isOpen, onClose }: EditTeamModalProps) {
 
     onSettled: () => {
       // 쿼리 무효화 및 리패치
-      queryClient.invalidateQueries({ queryKey: ['group', teamId] });
+      queryClient.invalidateQueries({ queryKey: ['group', id] });
     },
     onError: (error) => {
       console.error('그룹 생성 실패:', error);
@@ -59,7 +59,7 @@ export default function EditTeamModal({ isOpen, onClose }: EditTeamModalProps) {
     mutationFn: (file: File) => postImage(file),
     onSuccess: (imgUrl: string) => {
       // 이미지 URL을 성공적으로 받으면 그룹 수정 요청
-      editGroup({ id: teamId, image: imgUrl, name: localTeamName });
+      editGroup({ groupId: id, image: imgUrl, name: localTeamName });
     },
     onError: (error) => {
       console.error('이미지 업로드 실패:', error);
@@ -73,7 +73,7 @@ export default function EditTeamModal({ isOpen, onClose }: EditTeamModalProps) {
       uploadImageMutate.mutate(imageFile);
     } else {
       // 파일이 없으면 기존 URL로 그룹 수정
-      editGroup({ id: teamId, image: imageUrl, name: localTeamName });
+      editGroup({ groupId: id, image: imageUrl, name: localTeamName });
     }
   };
 

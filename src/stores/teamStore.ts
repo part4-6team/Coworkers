@@ -10,9 +10,37 @@ export interface MemberProps {
   userId: number;
 }
 
+export interface User {
+  id: number;
+  nickname: string;
+  image: string | null;
+}
+
+export interface DoneBy {
+  user: User | null;
+}
+
+export interface Writer {
+  id: number;
+  nickname: string;
+  image: string | null;
+}
+
 export interface TaskProps {
+  id: number;
   name: string;
-  done: boolean;
+  description: string;
+  date: string; // ISO 8601 형식
+  doneAt: string | null; // ISO 8601 형식
+  updatedAt: string; // ISO 8601 형식
+  user: User | null; // 태스크에 할당된 사용자
+  recurringId: number;
+  deletedAt: string | null; // 삭제된 날짜, null일 경우 삭제되지 않음
+  displayIndex: number; // 표시 순서
+  writer: Writer; // 태스크 작성자
+  doneBy: DoneBy; // 완료한 사용자
+  commentCount: number; // 댓글 수
+  frequency: string; // 반복 주기 ('ONCE' 등)
 }
 
 export interface TaskListProps {
@@ -37,7 +65,7 @@ export interface TeamDataProps {
 }
 
 interface TeamStore {
-  teamId: string;
+  id: string;
   teamName: string;
   imageUrl: string;
   members: MemberProps[];
@@ -51,14 +79,14 @@ interface TeamStore {
 }
 
 export const useTeamStore = create<TeamStore>((set) => ({
-  teamId: '0',
+  id: '0',
   teamName: '',
   imageUrl: '',
   members: [],
   taskLists: [],
   setTeamData: (data) =>
     set({
-      teamId: data.id.toString(),
+      id: data.id.toString(),
       teamName: data.name,
       imageUrl: data.image,
       members: data.members,
@@ -70,7 +98,7 @@ export const useTeamStore = create<TeamStore>((set) => ({
   setTaskLists: (taskLists) => set({ taskLists }),
   clearTeamData: () =>
     set({
-      teamId: '0',
+      id: '0',
       teamName: '',
       imageUrl: '',
       members: [],
