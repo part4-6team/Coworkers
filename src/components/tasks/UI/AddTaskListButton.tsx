@@ -1,5 +1,5 @@
-import AddTaskListModal from '@components/team/taskList/AddTaskListModal';
 import { useModal } from '@hooks/useModal';
+import AddTaskListModal from './AddTaskListModal';
 
 export default function AddTaskListButton() {
   const { isOpen, onOpen, onClose } = useModal();

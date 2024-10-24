@@ -10,8 +10,8 @@ import { REQUEST_INIT } from '@constants/initValues';
 import ToggleIcon from '@icons/toggle.svg';
 import type { TaskRequestDto } from '@/src/types/tasks/TaskListDto';
 
-import WeeklySelector from './UI/WeeklySelector';
-import Calender from './UI/Calender';
+import WeeklySelector from './WeeklySelector';
+import Calender from './Calender';
 
 interface AddTaskFormProps {
   onClose: () => void;

@@ -1,7 +1,7 @@
 import { useDate } from '@/src/contexts/DateContext';
 import getFormattedDate from '@utils/getFormattedDate';
 
-import Pagination from '../UI/Pagination';
+import Pagination from '../Pagination';
 import CalenderButton from '../UI/CalenderButton';
 import AddTaskListButton from '../UI/AddTaskListButton';
 

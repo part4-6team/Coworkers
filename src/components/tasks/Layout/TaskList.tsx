@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useTaskListContext } from '@/src/contexts/TaskListContext';
 import type { TaskListDto, TaskDto } from '@/src/types/tasks/TaskListDto';
 
-import TaskCard from '../UI/TaskCard';
+import TaskCard from '../TaskCard';
 import { MockData } from '../mockdata';
 
 interface TaskListProps {
@@ -47,9 +48,9 @@ export default function TaskList({ initialTaskListId = 1 }: TaskListProps) {
 
   return (
     <section className="flex flex-col gap-4">
-      <div className="flex gap-3">
+      <ul className="flex gap-3">
         {MockData.map((taskList: TaskListDto) => (
-          <div
+          <li
             key={taskList.id}
             className={
               selectedTaskListId === taskList.id
@@ -64,11 +65,13 @@ export default function TaskList({ initialTaskListId = 1 }: TaskListProps) {
             >
               {taskList.name}
             </button>
-          </div>
+          </li>
         ))}
-      </div>
-      {selectedTasks.length > 0 &&
-        selectedTasks.map((task) => <TaskCard key={task.id} task={task} />)}
+      </ul>
+      <ul className="flex flex-col gap-4">
+        {selectedTasks.length > 0 &&
+          selectedTasks.map((task) => <TaskCard key={task.id} task={task} />)}
+      </ul>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CalenderIcon from '@icons/calendar.svg';
-import Calender from './Calender';
+import Calender from '../Calender';
 
 export default function CalenderButton() {
   const [isOpen, setIsOpen] = useState(false);
