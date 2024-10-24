@@ -12,3 +12,12 @@ export const fetchBestCard = async ({
   });
   return response.data.list;
 };
+
+interface FetchCardDetailProps {
+  articleId: number;
+}
+
+export const fetchCardDetail = async ({ articleId }: FetchCardDetailProps) => {
+  const response = await authAxiosInstance.get(`articles/${articleId}`);
+  return response.data;
+};

@@ -8,6 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 interface ArticleCardProps {
   keyword: string;
@@ -35,6 +36,11 @@ export default function ArticleCard({ keyword }: ArticleCardProps) {
     hasNextPage,
     isFetchingNextPage,
   } = useCards(6, orderBy, keyword || '');
+  const router = useRouter();
+
+  const handleDetalCard = (id: number) => {
+    router.push(`article/${id}`);
+  };
 
   const handleSelect = (value: string) => {
     setorderBy(value);
@@ -69,7 +75,10 @@ export default function ArticleCard({ keyword }: ArticleCardProps) {
             {page.map((card: Card) => (
               <li key={card.id}>
                 <article className="h-[178px] w-full rounded-xl border border-background-tertiary bg-background-secondary">
-                  <div className="mx-4 mb-4 mt-6  ">
+                  <div
+                    className="mx-4 mb-4 mt-6 cursor-pointer  "
+                    onClick={() => handleDetalCard(card.id)}
+                  >
                     <div className="mb-10 flex justify-between">
                       <div>
                         <h3 className="mb-3 text-md-medium md:text-2lg-medium">

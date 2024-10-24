@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import ArrowRightIcon from 'public/icons/arrow_right.svg';
 import NetworkError from '@components/@shared/NetworkError';
+import { useRouter } from 'next/router';
 
 interface BestCardProps {
   keyword: string;
@@ -16,8 +17,12 @@ interface BestCardProps {
 export default function BestCard({ keyword }: BestCardProps) {
   const [pageSize, setPageSize] = useState(0);
   const { data: cards, isError } = useCard(1, pageSize, 'like', keyword || '');
-
   const { isMobile, isTablet, isPC } = useViewportSize();
+  const router = useRouter();
+
+  const handleDetalCard = (id: number) => {
+    router.push(`article/${id}`);
+  };
 
   useEffect(() => {
     if (isMobile) {
@@ -73,7 +78,10 @@ export default function BestCard({ keyword }: BestCardProps) {
         {cards?.map((card) => (
           <li key={card.id}>
             <article className=" h-[178px] w-full rounded-xl border border-background-tertiary bg-background-secondary">
-              <div className="mx-4 mb-4 mt-[9.5px] flex flex-col  ">
+              <div
+                className="mx-4 mb-4 mt-[9.5px] flex cursor-pointer flex-col"
+                onClick={() => handleDetalCard(card.id)}
+              >
                 <div className="mb-6">
                   <div className=" mb-[13.5px] flex items-center">
                     <IcmediaIcon />

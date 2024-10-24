@@ -27,7 +27,7 @@ export default function ArticlePage() {
   };
 
   return (
-    <div className="mx-4 mt-8 max-w-[1200px] lg:mx-auto">
+    <div className="mx-4 mt-8 max-w-[1200px] xl:mx-auto">
       <header className="mb-6">
         <h1 className="mb-6 text-2lg-bold md:text-2xl-bold">자유 게시판</h1>
         <SearchInput
